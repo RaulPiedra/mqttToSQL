@@ -5,14 +5,18 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
+import java.sql.Connection;
+
 public class MQTTConnection {
+    private Connection dbConnection;
     private String broker;
     private String username;
     private String password;
     private String clientId;
     private MqttClient mqttClient;
 
-    public MQTTConnection(String broker, String username, String password, String clientId) {
+    public MQTTConnection(Connection dbConnection, String broker, String username, String password, String clientId) {
+        this.dbConnection = dbConnection;
         this.broker = broker;
         this.username = username;
         this.password = password;
@@ -30,7 +34,7 @@ public class MQTTConnection {
         options.setPassword(password.toCharArray());
         options.setConnectionTimeout(60);
         options.setKeepAliveInterval(60);
-        mqttClient.setCallback(new OnMessageCallback());
+        mqttClient.setCallback(new OnMessageCallback(dbConnection));
         mqttClient.connect(options);
     }
     public MqttClient getMqttClient() {
