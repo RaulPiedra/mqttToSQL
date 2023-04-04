@@ -25,7 +25,7 @@ public class FakeTasmotaBME280 {
         MqttMessage mqttMessage = new MqttMessage(message.getBytes());
         mqttMessage.setQos(0);
         int index = 0;
-        while (index < 10) {
+        while (index < 6) {
 
             mqttClient.publish("tele/tasmota_1B1E96/SENSOR", mqttMessage);
             Thread.sleep(10000);
