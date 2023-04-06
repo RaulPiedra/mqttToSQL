@@ -5,15 +5,19 @@ import com.terfezio.model.Sensor;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class OnMessageCallback implements MqttCallback {
-    private final Connection dbConnection;
-    public OnMessageCallback(Connection dbConnection) {
-        this.dbConnection = dbConnection;
+    private final String[] DB_CREDENTIALS;
+    private final MemoryPersistence memoryPersistence;
+    public OnMessageCallback(String[] DB_CREDENTIALS, MemoryPersistence memoryPersistence) {
+        this.DB_CREDENTIALS = DB_CREDENTIALS;
+        this.memoryPersistence = memoryPersistence;
     }
     @Override
     public void connectionLost(Throwable throwable) {
@@ -32,6 +36,7 @@ public class OnMessageCallback implements MqttCallback {
         Gson gson = new Gson();
         Sensor sensor = gson.fromJson(message, Sensor.class);
         writeToDB(sensor, tableName);
+        memoryPersistence.clear();
         System.out.println("Temperature: " + sensor.getBme280().getTemperature());
     }
 
@@ -42,17 +47,16 @@ public class OnMessageCallback implements MqttCallback {
     }
 
     public void writeToDB(Sensor sensor, String tableName) throws SQLException {
-        String query = "INSERT INTO " + tableName + " VALUES (null, ?, ?, ?, ?, ?)";
-        PreparedStatement preparedStatement = dbConnection.prepareStatement(query);
-        preparedStatement.setString(1, sensor.getTime());
-        preparedStatement.setFloat(2, sensor.getBme280().getTemperature());
-        preparedStatement.setFloat(3, sensor.getBme280().getHumidity());
-        preparedStatement.setFloat(4, sensor.getBme280().getDewPoint());
-        preparedStatement.setFloat(5, sensor.getBme280().getPressure());
-        preparedStatement.executeUpdate();
-        preparedStatement.close();
-
+        try (Connection dbConnection = DriverManager.getConnection(DB_CREDENTIALS[0], DB_CREDENTIALS[1], DB_CREDENTIALS[2])) {
+            String query = "INSERT INTO " + tableName + " VALUES (null, ?, ?, ?, ?, ?)";
+            PreparedStatement preparedStatement = dbConnection.prepareStatement(query);
+            preparedStatement.setString(1, sensor.getTime());
+            preparedStatement.setFloat(2, sensor.getBme280().getTemperature());
+            preparedStatement.setFloat(3, sensor.getBme280().getHumidity());
+            preparedStatement.setFloat(4, sensor.getBme280().getDewPoint());
+            preparedStatement.setFloat(5, sensor.getBme280().getPressure());
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+        }
     }
-
-
 }

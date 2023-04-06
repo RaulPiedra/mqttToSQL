@@ -1,9 +1,9 @@
 package com.terfezio;
 
 import org.eclipse.paho.client.mqttv3.MqttException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +25,9 @@ public class Main {
 
     public static void main(String[] args)  {
         final String JDBC_URL = "jdbc:mariadb://" + DB_HOST + ":" + DB_PORT + "/" + DB_NAME;
+        final String[] DB_CREDENTIALS = {JDBC_URL, DB_USER_NAME, DB_PASSWORD};
+        Logger logger = LoggerFactory.getLogger(Main.class);
+        logger.info("Starting program...");
 
         List<BME280ToSQL> sensorsThreads = new ArrayList<>();
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
@@ -32,22 +35,23 @@ public class Main {
             for (BME280ToSQL bme280ToSQL: sensorsThreads) {
                 try {
                     bme280ToSQL.closeConnections();
-                } catch (SQLException | MqttException e) {
 
-                    e.printStackTrace();
+                } catch (SQLException | MqttException e) {
+                    logger.error(e.getMessage());
                 }
             }
         }));
         for (String topic : SENSOR_TOPICS) {
             try {
-                Connection dbConnection = DriverManager.getConnection(JDBC_URL, DB_USER_NAME, DB_PASSWORD);
-                MQTTConnection mqttConnection = new MQTTConnection(dbConnection, BROKER, BROKER_USER_NAME, BROKER_PASSWORD, CLIENT_ID + topic);
-                BME280ToSQL bme280ToSQL = new BME280ToSQL(dbConnection, mqttConnection, topic, 0);
+                //Connection dbConnection = DriverManager.getConnection(JDBC_URL, DB_USER_NAME, DB_PASSWORD);
+                MQTTConnection mqttConnection = new MQTTConnection(DB_CREDENTIALS, BROKER, BROKER_USER_NAME, BROKER_PASSWORD, CLIENT_ID + topic);
+                BME280ToSQL bme280ToSQL = new BME280ToSQL(DB_CREDENTIALS, mqttConnection, topic, 0);
                 sensorsThreads.add(bme280ToSQL);
                 bme280ToSQL.start();
+                logger.info("Sensor topic: " + topic + " added.");
 
-            } catch (SQLException | MqttException e) {
-                e.printStackTrace();
+            } catch (MqttException e) {
+                logger.error(e.getMessage());
             }
         }
     }

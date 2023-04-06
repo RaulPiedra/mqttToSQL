@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="mqttToSQL:jar" />
+    </artifacts-to-build>
+  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="35bb5553-a4fe-4cf2-9d05-2a230f6352ad" name="Changes" comment="funcionando">
+    <list default="true" id="35bb5553-a4fe-4cf2-9d05-2a230f6352ad" name="Changes" comment="preparando prueba server">
+      <change afterPath="$PROJECT_DIR$/.idea/artifacts/mqttToSQL_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/terfezio/BME280ToSQL.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/terfezio/BME280ToSQL.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/terfezio/FakeTasmotaBME280.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/terfezio/FakeTasmotaBME280.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/terfezio/MQTTConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/terfezio/MQTTConnection.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/terfezio/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/terfezio/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/terfezio/OnMessageCallback.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/terfezio/OnMessageCallback.java" afterDir="false" />
@@ -30,6 +37,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
+  </component>
   <component name="ProjectId" id="2NmixLxGk3OChr71UliKttXfFkj" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -42,7 +52,12 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.37931034&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
 }</component>
   <component name="RecentsManager">
@@ -89,7 +104,14 @@
       <option name="project" value="LOCAL" />
       <updated>1680557568316</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="preparando prueba server">
+      <created>1680627455367</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1680627455367</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -106,6 +128,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="inni" />
     <MESSAGE value="funcionando" />
-    <option name="LAST_COMMIT_MESSAGE" value="funcionando" />
+    <MESSAGE value="preparando prueba server" />
+    <option name="LAST_COMMIT_MESSAGE" value="preparando prueba server" />
   </component>
 </project>
